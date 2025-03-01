@@ -1,2 +1,2 @@
 # Dijkstra-Algorithmus-Visualisierung
-![Landing Page](images/application.png)
+![Landing Page](src/images/application.png)
