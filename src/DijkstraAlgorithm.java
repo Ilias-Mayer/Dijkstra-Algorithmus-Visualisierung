@@ -25,37 +25,41 @@ public class DijkstraAlgorithm {
         optimalPath.clear();
         visitedNodes.clear();
 
-        // Setze Startknoten
+        // Markiere Startstadt rot, Kennzahl 0
         Knoten startNode = graph.getNodeByName(startName);
         if (startNode == null) return;
 
         startNode.setDistance(0);
         trackedCosts.put(startName, 0.0);
+        processedNodes.add(startName);
 
         PriorityQueue<Knoten> queue = new PriorityQueue<>(Comparator.comparingDouble(Knoten::getDistance));
         queue.add(startNode);
 
         while (!queue.isEmpty()) {
-            Knoten current = queue.poll();
-            visitedNodes.add(current);
+            Knoten currentNode = queue.poll();
+            visitedNodes.add(currentNode);
 
-            if (current.getName().equals(endName)) {
+            // Prüfe, ob Zielstadt erreicht
+            if (currentNode.getName().equals(endName)) {
                 break;
             }
 
-            if (current.isProcessed()) continue;
-            current.setProcessed(true);
-            processedNodes.add(current.getName());
+            // Gehe durch alle Nachbarstädte
+            for (Knoten neighbor : currentNode.getNeighbors()) {
+                // Wenn Nachbarstadt noch nicht rot markiert
+                if (!processedNodes.contains(neighbor.getName())) {
+                    // Berechne Kennzahl: bisherige Kennzahl + Streckenlänge
+                    double newDistance = currentNode.getDistance() + calculateDistance(currentNode, neighbor);
 
-            for (Knoten neighbor : current.getNeighbors()) {
-                double distance = current.getDistance() + calculateDistance(current, neighbor);
-
-                if (distance < neighbor.getDistance()) {
-                    neighbor.setDistance(distance);
-                    neighbor.setPrevious(current);
-                    trackedCosts.put(neighbor.getName(), distance);
-                    trackedParents.put(neighbor.getName(), current.getName());
-                    queue.add(neighbor);
+                    // Wenn neue Kennzahl kleiner als bisherige
+                    if (newDistance < neighbor.getDistance()) {
+                        neighbor.setDistance(newDistance);
+                        neighbor.setPrevious(currentNode);
+                        trackedCosts.put(neighbor.getName(), newDistance);
+                        trackedParents.put(neighbor.getName(), currentNode.getName());
+                        queue.add(neighbor);
+                    }
                 }
             }
         }
