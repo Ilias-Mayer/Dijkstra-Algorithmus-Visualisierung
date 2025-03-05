@@ -23,6 +23,7 @@ public class Main {
                 FileReader fileReader = new FileReader();
                 Graph graph = fileReader.readGraphFromFile(filePath);
 
+                // Falls der Graph keine Knoten enthält, Fehlermeldung anzeigen
                 if (graph.getNodes().isEmpty()) {
                     JOptionPane.showMessageDialog(null,
                             "Fehler: Die Datei enthält keine gültigen Knoten!",

@@ -17,6 +17,7 @@ public class DijkstraAlgorithm {
         this.visitedNodes = new ArrayList<>();
     }
 
+    // Berechnet den kürzesten Pfad zwischen Start- und Zielknoten
     public void calculateShortestPath(String startName, String endName) {
         graph.reset();
         trackedCosts.clear();
@@ -69,12 +70,13 @@ public class DijkstraAlgorithm {
     }
 
     private double calculateDistance(Knoten from, Knoten to) {
-        // Euklidische Distanz
+        // Euklidische Distanz -> Berechnet die Luftlinienentfernung zwischen zwei Knoten
         int dx = to.getX() - from.getX();
         int dy = to.getY() - from.getY();
         return Math.sqrt(dx * dx + dy * dy);
     }
 
+    // Berechnet den optimalen Pfad basierend auf den vorherigen Knoten
     private void calculateOptimalPath(String endName) {
         optimalPath.clear();
         String currentNodeName = endName;
@@ -85,6 +87,7 @@ public class DijkstraAlgorithm {
         }
     }
 
+    // Markiert die Knoten des kürzesten Pfads im Graphen
     private void markShortestPath() {
         for (String nodeName : optimalPath) {
             Knoten node = graph.getNodeByName(nodeName);

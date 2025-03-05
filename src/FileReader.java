@@ -9,13 +9,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class FileReader {
+    // Liest einen Graphen aus einer Datei und erstellt Knoten und Kanten
     public Graph readGraphFromFile(String filePath) {
         Graph graph = new Graph();
         Map<String, String[]> connections = new HashMap<>();
 
         try (BufferedReader reader = Files.newBufferedReader(Paths.get(filePath))) {
             String line;
-            // Updated regex pattern to handle negative coordinates
+            // regex pattern erlaubt auch negative Koordinaten in der Datei
             Pattern pattern = Pattern.compile("([A-Za-z0-9]+)\\((-?\\d+),\\s*(-?\\d+)\\),\\s*(.*)");
 
             while ((line = reader.readLine()) != null) {

@@ -29,14 +29,15 @@ public class GUI extends JFrame {
         updateNodeComboBoxes();
     }
 
+    // Setzt das Layout der Benutzeroberfläche zusammen, fügt Steuerelemente wie Buttons und Textfelder hinzu
     private void initializeUI() {
         setTitle("Routenplaner");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        // Layout setup
+        // Layout einrichten
         setLayout(new BorderLayout());
 
-        // Control Panel (left side)
+        // Steuerungs-Panel (linke Seite)
         JPanel controlPanel = new JPanel();
         controlPanel.setLayout(new BoxLayout(controlPanel, BoxLayout.Y_AXIS));
         controlPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -83,14 +84,14 @@ public class GUI extends JFrame {
         resultPanel.add(new JScrollPane(resultTextArea), BorderLayout.CENTER);
         controlPanel.add(resultPanel);
 
-        // Graph Panel (right side)
+        // Graphen-Panel (rechte Seite)
         graphPanel = new GraphPanel(graph);
 
-        // Add panels to frame
+        // Panels zum Fenster hinzufügen
         add(controlPanel, BorderLayout.WEST);
         add(graphPanel, BorderLayout.CENTER);
 
-        // Initial size
+        // Anfangsgröße
         pack();
         setLocationRelativeTo(null);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -101,6 +102,7 @@ public class GUI extends JFrame {
         }
     }
 
+    // Aktualisiert die Menüs für die Auswahl von Start- und Zielknoten
     private void updateNodeComboBoxes() {
         startNodeComboBox.removeAllItems();
         targetNodeComboBox.removeAllItems();
@@ -111,6 +113,7 @@ public class GUI extends JFrame {
         }
     }
 
+    // Führt die Dijkstra-Berechnung im Hintergrund aus, aktualisiert die Visualisierung und zeigt das Ergebnis an
     private void onRunAlgorithmButtonClicked() {
         String startNodeName = (String) startNodeComboBox.getSelectedItem();
         String targetNodeName = (String) targetNodeComboBox.getSelectedItem();
@@ -120,7 +123,7 @@ public class GUI extends JFrame {
             return;
         }
 
-        // Reset visualization before starting a new calculation
+        // Visualisierung zurücksetzen, bevor eine neue Berechnung gestartet wird
         graphPanel.resetAnimation();
 
         // UI-Elemente deaktivieren während der Berechnung
@@ -179,6 +182,7 @@ public class GUI extends JFrame {
             }
         });
     }
+
     public class GraphPanel extends JPanel {
         private Graph graph;
         private List<String> optimalPath;
@@ -192,20 +196,24 @@ public class GUI extends JFrame {
             setBackground(Color.WHITE);
         }
 
+        // Setzt den optimalen Pfad (aus der Dijkstra-Berechnung) für die Visualisierung
         public void setOptimalPath(List<String> optimalPath) {
-            this.optimalPath = new ArrayList<>(optimalPath); // Create a new list to avoid reference issues
+            this.optimalPath = new ArrayList<>(optimalPath); // Eine neue Liste erstellen, um Referenzprobleme zu vermeiden
         }
 
+        // Fügt einen Knoten zur Liste der besuchten Knoten hinzu, um ihn später zu visualisieren
         public void addVisitedNode(Knoten node) {
             this.visitedNodes.add(node);
         }
 
+        // Setzt die Animation zurück
         public void resetAnimation() {
             this.visitedNodes.clear();
-            this.optimalPath.clear(); // Also clear the optimal path
+            this.optimalPath.clear(); // Lösche auch den optimalen Pfad.
             repaint();
         }
 
+        // Überschreibt die paintComponent-Methode, um den Graphen zu zeichnen
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
@@ -320,6 +328,7 @@ public class GUI extends JFrame {
             }
         }
 
+        // Zeichnet einen Pfeil, der den Übergang von einem Knoten zum anderen darstellt
         private void drawArrow(Graphics2D g2d, AffineTransform transform, Point2D.Double from, Point2D.Double to) {
             double dx = to.x - from.x;
             double dy = to.y - from.y;

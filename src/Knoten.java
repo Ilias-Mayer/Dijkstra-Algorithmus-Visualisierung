@@ -11,6 +11,7 @@ public class Knoten {
     private boolean processed;
     private boolean shortestPath;
 
+    // Konstruktor, der einen neuen Knoten mit Namen, X- und Y-Koordinaten erstellt und ihn mit Standardwerten initialisiert
     public Knoten(String name, int x, int y) {
         this.name = name;
         this.x = x;
@@ -22,6 +23,7 @@ public class Knoten {
         this.shortestPath = false;
     }
 
+    // Fügt dem Knoten einen Nachbarn hinzu, falls dieser noch nicht vorhanden ist (verhindert doppelte Nachbarn)
     public void addNeighbor(Knoten neighbor) {
         if (!neighbors.contains(neighbor)) {
             neighbors.add(neighbor);
